@@ -13,10 +13,12 @@ def draw_polygons( matrix, screen, color ):
         return
     point = 0
     while point < len(matrix) - 2:
+        '''
         print str(int(matrix[point][0])) + "\t" + str(int(matrix[point][1]))
         print str(int(matrix[point+1][0])) + "\t" + str(int(matrix[point+1][1]))
         print str(int(matrix[point+2][0])) + "\t" + str(int(matrix[point+2][1]))
         print ""
+        '''
         draw_line( int(matrix[point][0]),
                    int(matrix[point][1]),
                    int(matrix[point+1][0]),
@@ -63,26 +65,33 @@ def add_box( points, x, y, z, width, height, depth ):
     add_polygon(points,x1,y1,z1,x1,y1,z,x,y1,z1)
     add_polygon(points,x,y1,z,x,y1,z1,x1,y1,z)
         
-def add_sphere( edges, cx, cy, cz, r, step ):
+def add_sphere( polygons, cx, cy, cz, r, step ):
     points = generate_sphere(cx, cy, cz, r, step)
 
-    long = 0
-    while long < step:
-        #left pole triangle
-        add_polygon(points[long * step][0], points[long * step][1], points[long * step][2],
-                    points[long * step + 1][0], points[long * step + 1][1], points[long * step + 1][2],
-                    points[long * step + step][0], points[long * step + step][1], points[long * step + step][2])
+    lo = 0
+    while lo < step:
+        la = 1
+        #left pole triangles
+        a = lo * step
+        b = lo * step + 1
+        c = (lo + 1) * step + 1
+        add_polygon(polygons,
+                    points[a][0],points[a][1],points[a][2],
+                    points[b][0],points[b][1],points[b][2],
+                    points[c][0],points[c][1],points[c][2])
+
+        #right pole triangles
+        a = 
+        b = 
+        c = 
+        add_polygon(polygons,
+                    points[a][0],points[a][1],points[a][2],
+                    points[b][0],points[b][1],points[b][2],
+                    points[c][0],points[c][1],points[c][2])
         
-        lat = 1
-        while lat < step - 1:
-            add_polygon(points[long * step + lat][0], points[long * step + lat][1], points[long * step + lat][2],
-                        points[long * step + lat][0], points[long * step + lat][1], points[long * step + lat][2],
-                        points[long * step + lat][0], points[long * step + lat][1], points[long * step + lat][2])
-        #right pole triangle
-        add_polygon(points[(long + 1) * step - 1][0], points[(long + 1) * step - 1][1], points[(long + 1) * step - 1][2],
-                    points[(long + 2) * step - 2][0], points[(long + 2) * step - 2][1], points[(long + 2) * step - 2][2],
-                    points[(long + 1) * step - 2][0], points[(long + 1) * step - 2][1], points[(long + 1) * step - 2][2],
+        while la < step - 1:
             
+        
 def generate_sphere( cx, cy, cz, r, step ):
     points = []
 
