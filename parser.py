@@ -53,7 +53,7 @@ def parse_file( fname, edges, polygons, transform, screen, color ):
     lines = f.readlines()
 
     step = 100
-    step_3d = 10
+    step_3d = 5
     c = 0
 
     while c < len(lines):

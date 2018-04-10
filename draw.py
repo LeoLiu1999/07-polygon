@@ -17,7 +17,7 @@ def draw_polygons( matrix, screen, color ):
         print str(int(matrix[point][0])) + "\t" + str(int(matrix[point][1]))
         print str(int(matrix[point+1][0])) + "\t" + str(int(matrix[point+1][1]))
         print str(int(matrix[point+2][0])) + "\t" + str(int(matrix[point+2][1]))
-        print ""
+        print "\n"
         '''
         draw_line( int(matrix[point][0]),
                    int(matrix[point][1]),
@@ -68,29 +68,27 @@ def add_box( points, x, y, z, width, height, depth ):
 def add_sphere( polygons, cx, cy, cz, r, step ):
     points = generate_sphere(cx, cy, cz, r, step)
 
-    lo = 0
-    while lo < step:
-        la = 1
-        #left pole triangles
-        a = lo * step
-        b = lo * step + 1
-        c = (lo + 1) * step + 1
-        add_polygon(polygons,
-                    points[a][0],points[a][1],points[a][2],
-                    points[b][0],points[b][1],points[b][2],
-                    points[c][0],points[c][1],points[c][2])
-
-        #right pole triangles
-        a = 
-        b = 
-        c = 
-        add_polygon(polygons,
-                    points[a][0],points[a][1],points[a][2],
-                    points[b][0],points[b][1],points[b][2],
-                    points[c][0],points[c][1],points[c][2])
+    for lo in range(0, step + 1):
         
-        while la < step - 1:
-            
+        for la in range(0, step - 1):
+            a = lo * step + la
+            b = lo * step + la + 1
+            c = (lo + 1) * step + la + 1
+            add_polygon(polygons,
+                        points[a][0],points[a][1],points[a][2],
+                        points[b][0],points[b][1],points[b][2],
+                        points[c][0],points[c][1],points[c][2])
+
+            a = lo * step + la
+            b = (lo + 1) * step + la + 1
+            c = (lo + 1) * step + la
+            add_polygon(polygons,
+                        points[a][0],points[a][1],points[a][2],
+                        points[b][0],points[b][1],points[b][2],
+                        points[c][0],points[c][1],points[c][2])
+            la += 1
+        lo += 1
+
         
 def generate_sphere( cx, cy, cz, r, step ):
     points = []
@@ -100,9 +98,9 @@ def generate_sphere( cx, cy, cz, r, step ):
     circ_start = 0
     circ_stop = step
 
-    for rotation in range(rot_start, rot_stop):
+    for rotation in range(rot_start, rot_stop + 1):
         rot = rotation/float(step)
-        for circle in range(circ_start, circ_stop+1):
+        for circle in range(circ_start, circ_stop + 1):
             circ = circle/float(step)
 
             x = r * math.cos(math.pi * circ) + cx
