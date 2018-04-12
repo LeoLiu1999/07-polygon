@@ -69,8 +69,7 @@ def add_sphere( polygons, cx, cy, cz, r, step ):
     points = generate_sphere(cx, cy, cz, r, step)
 
     for lo in range(0, step + 1):
-        
-        for la in range(0, step - 1):
+        for la in range(0, step):
             a = lo * step + la
             b = lo * step + la + 1
             c = (lo + 1) * step + la + 1
@@ -119,16 +118,13 @@ def add_torus( polygons, cx, cy, cz, r0, r1, step ):
     longt_start = 0
     longt_stop = step
 
-    for la in range(lat_start, lat_stop):
-        for lo in range(longt_start, longt_stop - 1):
+    for la in range(lat_start, lat_stop + 1):
+        for lo in range(longt_start, longt_stop):
             index = la * step + lo
             a = index
             b = index + 1
             c = index + 1 + step
             d = index + step
-            if la == lat_stop - 1:
-                b = la * step
-                c = b + step
             add_polygon( polygons,
                          points[a][0], points[a][1], points[a][2],
                          points[b][0], points[b][1], points[b][2],
@@ -146,9 +142,9 @@ def generate_torus( cx, cy, cz, r0, r1, step ):
     circ_start = 0
     circ_stop = step
 
-    for rotation in range(rot_start, rot_stop):
+    for rotation in range(rot_start, rot_stop + 1):
         rot = rotation/float(step)
-        for circle in range(circ_start, circ_stop):
+        for circle in range(circ_start, circ_stop + 1):
             circ = circle/float(step)
 
             x = math.cos(2*math.pi * rot) * (r0 * math.cos(2*math.pi * circ) + r1) + cx;
