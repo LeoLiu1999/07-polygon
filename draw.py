@@ -13,27 +13,30 @@ def draw_polygons( matrix, screen, color ):
         return
     point = 0
     while point < len(matrix) - 2:
-        '''
-        print str(int(matrix[point][0])) + "\t" + str(int(matrix[point][1]))
-        print str(int(matrix[point+1][0])) + "\t" + str(int(matrix[point+1][1]))
-        print str(int(matrix[point+2][0])) + "\t" + str(int(matrix[point+2][1]))
-        print "\n"
-        '''
-        draw_line( int(matrix[point][0]),
-                   int(matrix[point][1]),
-                   int(matrix[point+1][0]),
-                   int(matrix[point+1][1]),
-                   screen, color)
-        draw_line( int(matrix[point+1][0]),
-                   int(matrix[point+1][1]),
-                   int(matrix[point+2][0]),
-                   int(matrix[point+2][1]),
-                   screen, color)
-        draw_line( int(matrix[point+2][0]),
-                   int(matrix[point+2][1]),
-                   int(matrix[point][0]),
-                   int(matrix[point][1]),
-                   screen, color)
+        # to cull
+        ax = matrix[point+1][0] - matrix[point][0]
+        ay = matrix[point+1][1] - matrix[point][1]
+        bx = matrix[point+2][0] - matrix[point][0]
+        by = matrix[point+2][1] - matrix[point][1]
+        normal = ax*by - ay*bx
+
+        # or not to cull
+        if 0 < normal:
+            draw_line( int(matrix[point][0]),
+                       int(matrix[point][1]),
+                       int(matrix[point+1][0]),
+                       int(matrix[point+1][1]),
+                       screen, color)
+            draw_line( int(matrix[point+1][0]),
+                       int(matrix[point+1][1]),
+                       int(matrix[point+2][0]),
+                       int(matrix[point+2][1]),
+                       screen, color)
+            draw_line( int(matrix[point+2][0]),
+                       int(matrix[point+2][1]),
+                       int(matrix[point][0]),
+                       int(matrix[point][1]),
+                       screen, color)
         point+= 3
 
 def add_box( points, x, y, z, width, height, depth ):
